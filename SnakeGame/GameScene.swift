@@ -121,6 +121,8 @@ extension GameScene: SKPhysicsContactDelegate {
             createApple()
         case CollisionCategory.EdgeBody:
             //ДЗ
+            self.removeAllChildren()
+                        didMove(to: view!)
             break
         default:
             break
