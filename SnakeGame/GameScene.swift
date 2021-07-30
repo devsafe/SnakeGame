@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-struct COllisionCategary {
+struct CollisionCategory {
     static let Snake: UInt32 = 0x1 << 0 //0001 1
     static let SnakeHead: UInt32 = 0x1 << 1 //0010 2
     static let Apple: UInt32 = 0x1 << 2 //0100 4
@@ -20,7 +20,7 @@ class GameScene: SKScene {
     var snake: Snake?
     
     override func didMove(to view: SKView) {
-        backgroundColor = SKColor.gray
+        backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         physicsBody?.allowsRotation = false
@@ -28,20 +28,22 @@ class GameScene: SKScene {
         view.showsPhysics = true
         
         
-        let counterClockWise = SKShapeNode()
-        counterClockWise.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 45, height: 45)).cgPath
-        counterClockWise.position = CGPoint(x: view.scene!.frame.minX + 30, y: view.scene!.frame.minY+30)
-        counterClockWise.fillColor = UIColor.orange
-        counterClockWise.strokeColor = UIColor.orange
-        counterClockWise.lineWidth = 10
-        counterClockWise.name = "counterClockWise"
-        self.addChild(counterClockWise)
+        let counterClockButton = SKShapeNode()
+        counterClockButton.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 45, height: 45)).cgPath
+        counterClockButton.position = CGPoint(x: view.scene!.frame.minX + 30, y: view.scene!.frame.minY+30)
+        counterClockButton.fillColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        counterClockButton.strokeColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        counterClockButton.blendMode = .screen
+        counterClockButton.lineWidth = 10
+        counterClockButton.name = "counterClockWise"
+        self.addChild(counterClockButton)
         
         let clockButton = SKShapeNode()
         clockButton.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 45, height: 45)).cgPath
         clockButton.position = CGPoint(x: view.scene!.frame.maxX - 80, y: view.scene!.frame.minY + 30)
-        clockButton.fillColor = UIColor.orange
-        clockButton.strokeColor = UIColor.orange
+        clockButton.fillColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        clockButton.strokeColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        clockButton.blendMode = .screen
         clockButton.lineWidth = 10
         clockButton.name = "clockButton"
         self.addChild(clockButton)
@@ -52,8 +54,8 @@ class GameScene: SKScene {
         self.addChild(snake!)
         
         self.physicsWorld.contactDelegate = self
-        self.physicsBody?.categoryBitMask = COllisionCategary.EdgeBody
-        self.physicsBody?.collisionBitMask = COllisionCategary.Snake | COllisionCategary.SnakeHead
+        self.physicsBody?.categoryBitMask = CollisionCategory.EdgeBody
+        self.physicsBody?.collisionBitMask = CollisionCategory.Snake | CollisionCategory.SnakeHead
         
     }
     
@@ -65,7 +67,7 @@ class GameScene: SKScene {
                 return
             }
             
-            touchesNode.fillColor = .blue
+            touchesNode.fillColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
             
             if touchesNode.name == "counterClockWise" {
                 snake!.moveCOunterClockWise()
@@ -83,7 +85,7 @@ class GameScene: SKScene {
                 return
             }
             
-            touchesNode.fillColor = .orange
+            touchesNode.fillColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
         }
     }
     
@@ -109,15 +111,15 @@ extension GameScene: SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         let bodyes = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        let collisionObject = bodyes - COllisionCategary.SnakeHead
+        let collisionObject = bodyes - CollisionCategory.SnakeHead
         
         switch collisionObject {
-        case COllisionCategary.Apple:
+        case CollisionCategory.Apple:
             let apple = contact.bodyA.node is Apple ? contact.bodyA.node : contact.bodyB.node
             snake?.addBodyPart()
             apple?.removeFromParent()
             createApple()
-        case COllisionCategary.EdgeBody:
+        case CollisionCategory.EdgeBody:
             //ДЗ
             break
         default:
