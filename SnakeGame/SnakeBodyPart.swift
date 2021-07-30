@@ -2,7 +2,7 @@
 //  SnakeBodyPart.swift
 //  les8
 //
-//  Created by MICHAIL SHAKHVOROSTOV on 29.07.2021.
+//  Created by Boris Sobolev on 30.07.2021.
 //
 
 import UIKit
@@ -14,9 +14,9 @@ class SnakeBodyPart:  SKShapeNode {
     init(atPOint point: CGPoint) {
         super.init()
         
-        path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: diametr, height: diametr)).cgPath
+        path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: diametr, height: diametr)).cgPath
         fillColor = #colorLiteral(red: 0.9956225753, green: 0.5798057914, blue: 0, alpha: 1)
-        strokeColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+        strokeColor = #colorLiteral(red: 0.9956225753, green: 0.5798057914, blue: 0, alpha: 1)
         lineWidth = 5
         
         self.position = point

@@ -2,7 +2,7 @@
 //  GameScene.swift
 //  les8
 //
-//  Created by MICHAIL SHAKHVOROSTOV on 29.07.2021.
+//  Created by Boris Sobolev on 30.07.2021.
 //
 
 import SpriteKit
@@ -25,7 +25,7 @@ class GameScene: SKScene {
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         physicsBody?.allowsRotation = false
         
-        view.showsPhysics = true
+        view.showsPhysics = false
         
         
         let counterClockButton = SKShapeNode()
@@ -36,6 +36,7 @@ class GameScene: SKScene {
         counterClockButton.blendMode = .screen
         counterClockButton.lineWidth = 10
         counterClockButton.name = "counterClockWise"
+        counterClockButton.zPosition = 100
         self.addChild(counterClockButton)
         
         let clockButton = SKShapeNode()
@@ -46,6 +47,7 @@ class GameScene: SKScene {
         clockButton.blendMode = .screen
         clockButton.lineWidth = 10
         clockButton.name = "clockButton"
+        clockButton.zPosition = 100
         self.addChild(clockButton)
         
         createApple()
@@ -67,12 +69,14 @@ class GameScene: SKScene {
                 return
             }
             
-            touchesNode.fillColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
+            touchesNode.fillColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             
             if touchesNode.name == "counterClockWise" {
                 snake!.moveCOunterClockWise()
+             //   view?.isPaused = true
             } else if touchesNode.name == "clockButton" {
                 snake!.moveClockwise()
+              //  view?.isPaused = false
             }
         }
     }
