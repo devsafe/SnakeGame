@@ -10,7 +10,9 @@ import UIKit
 class SnakeHead: SnakeBodyPart {
     override init(atPOint point: CGPoint) {
         super.init(atPOint: point)
-        path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: diametr, height: diametr)).cgPath
+       path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: diametr, height: diametr)).cgPath
+        
+        //imageNamed: "player"
         
         self.physicsBody?.categoryBitMask = CollisionCategory.SnakeHead
         self.physicsBody?.contactTestBitMask = CollisionCategory.EdgeBody | CollisionCategory.Apple | CollisionCategory.Snake

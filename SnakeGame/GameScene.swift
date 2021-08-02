@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import UIKit
 
 struct CollisionCategory {
     static let Snake: UInt32 = 0x1 << 0 //0001 1
@@ -31,22 +32,35 @@ class GameScene: SKScene {
         let counterClockButton = SKShapeNode()
         counterClockButton.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 45, height: 45)).cgPath
         counterClockButton.position = CGPoint(x: view.scene!.frame.minX + 30, y: view.scene!.frame.minY+30)
+        let imageLeft = UIImage(systemName: "arrow.counterclockwise")
+        let imageLeftColor = UIImageView(image: imageLeft)
+        imageLeftColor.tintColor = .systemPink
+        
         counterClockButton.fillColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-        counterClockButton.strokeColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-        counterClockButton.blendMode = .screen
-        counterClockButton.lineWidth = 10
+        counterClockButton.strokeColor = .clear
+        
+        counterClockButton.alpha = 0.7
+        //counterClockButton.strokeColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        //counterClockButton.blendMode = .screen
+        //counterClockButton.lineWidth = 10
         counterClockButton.name = "counterClockWise"
+        
+        counterClockButton.fillTexture = SKTexture.init(image: imageLeft!)
+        counterClockButton.fillColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
         counterClockButton.zPosition = 100
         self.addChild(counterClockButton)
         
         let clockButton = SKShapeNode()
         clockButton.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 45, height: 45)).cgPath
         clockButton.position = CGPoint(x: view.scene!.frame.maxX - 80, y: view.scene!.frame.minY + 30)
+        let imageRight = UIImage.init(systemName: "arrow.clockwise")
         clockButton.fillColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-        clockButton.strokeColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-        clockButton.blendMode = .screen
-        clockButton.lineWidth = 10
+        clockButton.strokeColor = .clear
+        counterClockButton.alpha = 0.7
+        //clockButton.blendMode = .screen
+        //clockButton.lineWidth = 10
         clockButton.name = "clockButton"
+        clockButton.fillTexture = SKTexture.init(image: imageRight!)
         clockButton.zPosition = 100
         self.addChild(clockButton)
         
@@ -111,6 +125,8 @@ class GameScene: SKScene {
 }
 
 
+var appleCount = 0
+
 extension GameScene: SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -122,11 +138,25 @@ extension GameScene: SKPhysicsContactDelegate {
             let apple = contact.bodyA.node is Apple ? contact.bodyA.node : contact.bodyB.node
             snake?.addBodyPart()
             apple?.removeFromParent()
+            appleCount += 1
             createApple()
         case CollisionCategory.EdgeBody:
             //ДЗ
-            self.removeAllChildren()
+                  
+self.removeAllChildren()
+            view?.isPaused = true
+            
+            let alert = UIAlertController(title: "Game over", message: "You earn \(appleCount) apples.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Try again!", style: .default, handler: { (action: UIAlertAction!) in
+                            appleCount = 0
+                            self.view?.isPaused = false
+                            
+                        
+                        }))
+            self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
                         didMove(to: view!)
+            appleCount = 0
+            
             break
         default:
             break
