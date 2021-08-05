@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  les8
 //
-//  Created by MICHAIL SHAKHVOROSTOV on 29.07.2021.
+//  Created by Boris Sobolev on 30.07.2021.
 //
 
 import UIKit
